@@ -10,7 +10,7 @@ namespace ProjectEuler_v2
     {
         static void Main(string[] args)
         {
-            int problemId = 001;
+            int problemId = 008;
 
             switch (problemId)
             {
@@ -304,10 +304,12 @@ namespace ProjectEuler_v2
                     primes.Add(checkNumber);
 
                     // Print progress. 
+                    /*
                     if (primesCount % 100 == 0)
                     {
                         Console.WriteLine(primesCount);
                     }
+                    */
                 }
             }
 
@@ -389,10 +391,10 @@ namespace ProjectEuler_v2
                 {
                     result = product;
                     index = i;
-                    Console.WriteLine(index + " - " + result);
+                    //Console.WriteLine(index + " - " + result);
                 }
 
-                if (i % 100 == 0) Console.WriteLine(i);
+                //if (i % 100 == 0) Console.WriteLine(i);
             }
 
             Console.WriteLine(result);
