@@ -11,6 +11,9 @@ namespace ProjectEuler_v2
         static void Main(string[] args)
         {
             Console.WriteLine("GitHub");
+            Console.WriteLine("GitHub");
+            Console.WriteLine("GitHub");
+            Console.WriteLine("GitHub");
             Console.ReadLine();
         }
     }
