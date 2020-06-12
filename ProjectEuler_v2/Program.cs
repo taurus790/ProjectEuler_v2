@@ -10,41 +10,51 @@ namespace ProjectEuler_v2
     {
         static void Main(string[] args)
         {
-            int problemId = 008;
+            int problemId = 010;
+
+            Console.WriteLine("Started.");
 
             switch (problemId)
             {
                 case 001:
-                    problem_001();
+                    problem_001(); // Multiples of 3 and 5.
                     break;
                 case 002:
-                    problem_002();
+                    problem_002(); // Even Fibonacci numbers.
                     break;
                 case 003:
-                    problem_003();
+                    problem_003(); // Largest prime factor.
                     break;
                 case 004:
-                    problem_004();
+                    problem_004(); // Largest palindrome product.
                     break;
                 case 005:
-                    problem_005();
+                    problem_005(); // Smallest multiple.
                     break;
                 case 006:
-                    problem_006();
+                    problem_006(); // Sum square difference.
                     break;
                 case 007:
-                    problem_007();
+                    problem_007(); // 10001st prime.
                     break;
                 case 008:
-                    problem_008();
+                    problem_008(); // Largest product in a series. 
+                    break;
+                case 009:
+                    problem_009(); // Special Pythagorean triplet. 
+                    break;
+                case 010:
+                    problem_010(); // Summation of primes.
                     break;
                 default:
                     break;
             }
-
-            Console.ReadLine(); 
+            
+            Console.WriteLine("Ended.");
+            Console.ReadLine();
         }
 
+        // Multiples of 3 and 5.
         static void problem_001()
         {
             /**
@@ -77,6 +87,7 @@ namespace ProjectEuler_v2
             Console.WriteLine("Sum " + sum);
         }
 
+        // Even Fibonacci numbers.
         static void problem_002()
         {
             /**
@@ -112,6 +123,7 @@ namespace ProjectEuler_v2
             Console.WriteLine(sum);
         }
 
+        // Largest prime factor.
         static void problem_003()
         {
             /**
@@ -162,6 +174,7 @@ namespace ProjectEuler_v2
             Console.WriteLine(largestPrimeFactor);
         }
 
+        // Largest palindrome product.
         static void problem_004()
         {
             /**
@@ -196,6 +209,7 @@ namespace ProjectEuler_v2
             }
         }
 
+        // Smallest multiple.
         static void problem_005()
         {
             /**
@@ -227,6 +241,7 @@ namespace ProjectEuler_v2
             Console.WriteLine(number);
         }
 
+        // Sum square difference.
         static void problem_006()
         {
             /**
@@ -264,12 +279,13 @@ namespace ProjectEuler_v2
             Console.WriteLine(result);
         }
 
+        // 10001st prime.
         static void problem_007()
         {
-            /**
-            By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
-            What is the 10 001st prime number?
-            */
+            /*
+             * By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+             * What is the 10 001st prime number?
+             */
 
             int n = 10001; // The n-th prime to find. 
 
@@ -317,6 +333,7 @@ namespace ProjectEuler_v2
             Console.WriteLine(primes[primes.Count - 1]);
         }
 
+        // Largest product in a series. 
         static void problem_008()
         {
             /**
@@ -398,6 +415,106 @@ namespace ProjectEuler_v2
             }
 
             Console.WriteLine(result);
+        }
+
+        // Special Pythagorean triplet. 
+        static void problem_009()
+        {
+            /*
+             * A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+             * a^2 + b^2 = c^2
+             * For example, 3^2 + 4^2 = 9 + 16 = 25 = 5^2.
+             * 
+             * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+             * Find the product abc.
+             */
+
+            int sum = 1000; // The sum of the Triplet. 
+            bool found = false; // If the triplet found. 
+
+            // The a can be between 0 and sum/3.
+            for (int a = 0; a < sum / 3; a++)
+            {
+                // The b can be between the a and ((sum - a - 1) / 2).
+                for (int b = a + 1; b < ((sum - a - 1) / 2); b++)
+                {
+                    int c = sum - a - b; 
+
+                    if (a * a + b * b == c * c) // Check if found. 
+                    {
+                        int product = a * b * c;
+                        Console.WriteLine(a + " * " + b + " * " + c + " = " + product);
+                    }
+
+                    if (found) break; // break the loop if found. 
+                }
+
+                if (found) break; // break the loop if found. 
+            }
+        }
+
+        // Summation of primes.
+        static void problem_010()
+        {
+            /*
+             * The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+             * Find the sum of all the primes below two million.
+            */
+
+            int upperLimit = 2000000; // The max prime to find. 
+            double sum = 0; // the sum of found primes. 
+
+            // Container for the prime numbers and the first prime added into it (e.g. 2). 
+            List<double> primes = new List<double>();
+            primes.Add(2);
+
+            // The sum of primes is equal to 2 now. 
+            sum += 2;
+
+            // Go through odd numbers, check for primerity, add to list if prime. 
+            for (double checkNumber = 3; checkNumber < upperLimit; checkNumber += 2)
+            {
+                bool isPrime = true; // The number is prime until the opposite has been proven. 
+                double sqrtCheckNumber = Math.Sqrt(checkNumber);
+
+                double primesCount = primes.Count; // Qty of primes found. 
+
+                // Go through found primes and try to divide the checkNumver to it.
+                for (int j = 0; j < primesCount; j++)
+                {
+                    // No sense to take the primes greater than sqrt of the number.
+                    if (primes[j] > sqrtCheckNumber) break;
+
+                    // If checkNumber % prime == 0 then break. 
+                    if (checkNumber % primes[j] == 0)
+                    {
+                        isPrime = false;
+                        break;
+                    }
+                }
+
+                // If the number is prime add this to the container and to the sum. 
+                if (isPrime)
+                {
+                    primes.Add(checkNumber);
+
+                    sum += checkNumber;
+
+                    // Print progress. 
+                    /*  
+                    // Print out the found prime. 
+                    //Console.WriteLine(checkNumber);
+                    
+                    if (primesCount % 100 == 0)
+                    {
+                        Console.WriteLine(primesCount);
+                    }
+                    */
+                }
+            }
+
+            // Print the result. 
+            Console.WriteLine(sum);
         }
     }
 }
