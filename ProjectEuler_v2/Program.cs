@@ -10,7 +10,7 @@ namespace ProjectEuler_v2
     {
         static void Main(string[] args)
         {
-            int problemId = 014;
+            int problemId = 015;
 
             Console.WriteLine("Started.");
 
@@ -57,6 +57,9 @@ namespace ProjectEuler_v2
                     break;
                 case 014:
                     problem_014(); // Longest Collatz sequence.
+                    break;
+                case 015:
+                    problem_015(); // Lattice paths.
                     break;
                 default:
                     break;
@@ -1066,7 +1069,7 @@ namespace ProjectEuler_v2
                 chain++;
                 return chain;
             }
-            else if (n%2==0)
+            else if (n % 2 == 0)
             {
                 n /= 2;
                 chain++;
@@ -1079,8 +1082,89 @@ namespace ProjectEuler_v2
                 return Sequence(n, chain);
             }
         }
-    
 
-    
+        // Lattice paths.
+        static void problem_015()
+        {
+            /*
+             * Starting in the top left corner of a 2×2 grid, and only being able to move to the right and down,
+             * there are exactly 6 routes to the bottom right corner.
+             * 
+             *      >>> >>>         >>> ---         >>> ---
+             *     |   |   V       |   V   |       |   V   |
+             *      --- ---         --- >>>         --- ---
+             *     |   |   V       |   |   V       |   V   |
+             *      --- ---         --- ---         --- >>>
+             *      
+             *      
+             *      --- ---         --- ---         --- ---
+             *     V   |   |       V   |   |       V   |   |
+             *      >>> >>>         >>> ---         --- ---
+             *     |   |   V       |   V   |       V   |   |
+             *      --- ---         --- >>>         >>> >>>
+             *      
+             * 
+             * How many such routes are there through a 20×20 grid?
+             */
+
+            int height = 20; // Height of the grid. 
+            int width = 20; // Width of the grid. 
+            double count; // Amount of the ways. 
+
+            // This grid saves the count of ways in each intersection point on the grid. 
+            double[,] grid = new double[height + 1, width + 1];
+
+            // Calculate and output.  
+            count = CellValue(0, 0, width, height, grid);
+            Console.WriteLine("On the "+width + " x " + height + " grid there are " + count + " ways.");
+        }
+
+        // Lattice paths. Helper method. (Recursive method: inputs are i and j - intersection coordinates.)
+        static double CellValue(int i, int j, int width, int height, double[,] grid)
+        {
+            // If the asked point is known, 
+            if (grid[i, j] != 0)
+            {
+                // then return it. 
+                return grid[i, j];
+            }
+
+            // If the asked point is in the middle of the grid, 
+            if (i < height && j < width)
+            {
+                // then calculate the sum of the next right and bottom points and save the value in the grid.
+                grid[i, j] = CellValue(i + 1, j, width, height, grid) + CellValue(i, j + 1, width, height, grid);
+
+                // Return the value for the asked point. 
+                return grid[i, j];
+            }
+
+            // If the asked point is on the right border of the grid, 
+            else if (i < height && j == width)
+            {
+                // then take the value of the next bottom point and save the value in the grid.
+                grid[i, j] = CellValue(i + 1, j, width, height, grid);
+
+                // Return the value for the asked point. 
+                return grid[i, j];
+            }
+
+            // If the asked point is on the bottom border of the grid, 
+            else if (i == height && j < width)
+            {
+                // then take the value of the next right point and save the value in the grid.
+                grid[i, j] = CellValue(i, j + 1, width, height, grid);
+
+                // Return the value for the asked point. 
+                return grid[i, j];
+            }
+
+            // If the asked point is the right bottom corner, 
+            else // if (i == height && j == width)
+            {
+                // then return 1. 
+                return 1;
+            }
+        }
     }
 }
